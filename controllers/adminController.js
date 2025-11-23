@@ -23,7 +23,7 @@ export const addBook = async (req, res) => {
         cantidad_disponible: parseInt(cantidad_disponible) || 0 
     });
     
-    res.redirect('/admin');
+    res.redirect('/admin/inventario');
 };
 
 // Mostrar formulario para editar libro
@@ -54,7 +54,7 @@ export const updateBook = async (req, res) => {
     book.cantidad_disponible = parseInt(cantidad_disponible);
     await book.save();
     
-    res.redirect('/admin');
+    res.redirect('/admin/inventario');
 };
 
 // Eliminar libro
@@ -66,5 +66,5 @@ export const deleteBook = async (req, res) => {
     }
     
     await book.destroy();
-    res.redirect('/admin');
+    res.redirect('/admin/inventario');
 };

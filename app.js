@@ -10,9 +10,33 @@ import booksRoutes from './routes/booksRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+
+// Importar modelos
+import { User } from './models/User.js';
+import { Book } from './models/Book.js';
 import { Cart } from './models/Cart.js';
 import { Order } from './models/Order.js';
 import { OrderItem } from './models/OrderItem.js';
+
+// Definir relaciones después de importar todos los modelos
+// Relaciones User
+User.hasMany(Cart, { foreignKey: 'userId' });
+User.hasMany(Order, { foreignKey: 'userId' });
+
+// Relaciones Book
+Book.hasMany(Cart, { foreignKey: 'bookId' });
+
+// Relaciones Cart
+Cart.belongsTo(User, { foreignKey: 'userId' });
+Cart.belongsTo(Book, { foreignKey: 'bookId' });
+
+// Relaciones Order
+Order.belongsTo(User, { foreignKey: 'userId' });
+Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+
+// Relaciones OrderItem
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+OrderItem.belongsTo(Book, { foreignKey: 'bookId' });
 
 dotenv.config();
 

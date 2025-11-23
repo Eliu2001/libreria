@@ -155,8 +155,7 @@ export const checkout = async (req, res) => {
         // Crear la orden
         const order = await Order.create({
             userId,
-            total,
-            estado: 'completado'
+            total
         }, { transaction });
 
         // Crear items de la orden y descontar stock

@@ -36,9 +36,3 @@ export const Cart = sequelize.define('cart', {
 }, {
     tableName: 'carts'
 });
-
-// Definir relaciones
-Cart.belongsTo(User, { foreignKey: 'userId' });
-Cart.belongsTo(Book, { foreignKey: 'bookId' });
-User.hasMany(Cart, { foreignKey: 'userId' });
-Book.hasMany(Cart, { foreignKey: 'bookId' });

@@ -22,12 +22,8 @@ export const Order = sequelize.define('order', {
     },
     estado: {
         type: DataTypes.ENUM('pendiente', 'completado', 'cancelado'),
-        defaultValue: 'completado'
+        defaultValue: 'pendiente'
     }
 }, {
     tableName: 'orders'
 });
-
-// Relaciones
-Order.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Order, { foreignKey: 'userId' });

@@ -8,12 +8,17 @@ import {
     deleteBook 
 } from "../controllers/adminController.js";
 import { viewAllOrders, updateOrderStatus } from "../controllers/orderController.js";
+import { showDashboard } from "../controllers/dashboardController.js";
 import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 
 const router = Router();
 
 // Todas las rutas requieren ser administrador
-router.get('/admin', verifyAdmin, showAdminPanel);
+// Dashboard como página principal
+router.get('/admin', verifyAdmin, showDashboard);
+
+// Gestión de inventario
+router.get('/admin/inventario', verifyAdmin, showAdminPanel);
 router.get('/admin/books/new', verifyAdmin, showAddBookForm);
 router.post('/admin/books', verifyAdmin, addBook);
 router.get('/admin/books/:id/edit', verifyAdmin, showEditBookForm);

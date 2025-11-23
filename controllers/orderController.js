@@ -36,11 +36,20 @@ export const viewAllOrders = async (req, res) => {
                 },
                 {
                     model: OrderItem,
-                    include: [Book]
+                    include: [{
+                        model: Book,
+                        attributes: ['nombre', 'autor', 'precio']
+                    }]
                 }
             ],
             order: [['createdAt', 'DESC']]
         });
+
+        // Debug: mostrar datos cargados
+        console.log('Pedidos encontrados:', orders.length);
+        if (orders.length > 0) {
+            console.log('Primer pedido:', JSON.stringify(orders[0], null, 2));
+        }
 
         res.render('adminOrders', { orders });
     } catch (error) {

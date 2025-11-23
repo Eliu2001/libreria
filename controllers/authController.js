@@ -40,7 +40,13 @@ export const login = async (req, res) => {
         { expiresIn: '1h' }
     );
     res.cookie('token', token);
-    res.redirect('/');
+    
+    // Redirigir según el rol
+    if (user.role === 'admin') {
+        res.redirect('/admin');
+    } else {
+        res.redirect('/');
+    }
 }
 
 export const logout = (req, res) => {
