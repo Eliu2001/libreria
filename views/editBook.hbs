@@ -26,6 +26,16 @@
     <input type="number" class="form-control" name="cantidad_disponible" min="0" value="{{book.cantidad_disponible}}" required>
   </div>
   
+  <div class="mb-3">
+    <label class="form-label">Categorías</label>
+    <select class="form-select" name="categories" multiple size="5">
+      {{#each categories}}
+        <option value="{{this.id}}" {{#if (includes ../bookCategoryIds this.id)}}selected{{/if}}>{{this.nombre}}</option>
+      {{/each}}
+    </select>
+    <small class="form-text text-muted">Mantén presionado Ctrl (Cmd en Mac) para seleccionar múltiples categorías</small>
+  </div>
+  
   <button type="submit" class="btn btn-primary">Actualizar Libro</button>
-  <a href="/admin" class="btn btn-secondary">Cancelar</a>
+  <a href="/admin/inventario" class="btn btn-secondary">Cancelar</a>
 </form>

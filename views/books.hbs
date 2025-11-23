@@ -59,11 +59,61 @@
     </div>
   {{/if}}
 
+  <!-- Barra de Búsqueda -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form action="/libros" method="GET" class="row g-3">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text">🔍</span>
+            <input 
+              type="text" 
+              name="search" 
+              class="form-control form-control-lg" 
+              placeholder="Buscar por nombre de libro o autor..."
+              value="{{searchTerm}}"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <select name="category" class="form-select form-select-lg">
+            <option value="">📁 Todas las categorías</option>
+            {{#each categories}}
+              <option value="{{this.id}}" {{#if (eq ../categoryId (toString this.id))}}selected{{/if}}>{{this.nombre}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary btn-lg w-100">Buscar</button>
+        </div>
+      </form>
+      
+      {{#if isSearching}}
+        <div class="mt-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted">
+              {{#if (gt resultCount 0)}}
+                Se encontraron <strong>{{resultCount}}</strong> resultado(s)
+              {{else}}
+                No se encontraron resultados
+              {{/if}}
+            </span>
+            <a href="/libros" class="btn btn-sm btn-outline-secondary">
+              ✖️ Limpiar filtros
+            </a>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+
   <div class="books-table">
     <table class="table table-hover mb-0">
       <thead>
         <tr>
           <th>📖 Nombre</th>
+          <th>📁 Categorías</th>
           <th>💰 Precio</th>
           <th>📦 Stock Disponible</th>
           <th style="width: 350px;">🛒 Agregar al Carrito</th>
@@ -76,6 +126,15 @@
               {{this.nombre}}
               {{#if this.autor}}
                 <br><small class="text-muted">por {{this.autor}}</small>
+              {{/if}}
+            </td>
+            <td>
+              {{#if this.categories.length}}
+                {{#each this.categories}}
+                  <span class="badge bg-secondary me-1">{{this.nombre}}</span>
+                {{/each}}
+              {{else}}
+                <span class="text-muted">Sin categoría</span>
               {{/if}}
             </td>
             <td>
@@ -110,9 +169,15 @@
   </div>
 
   {{#unless books.length}}
-    <div class="alert alert-info text-center mt-4">
-      <h4>📚 No hay libros disponibles en este momento</h4>
-      <p>Por favor, vuelve más tarde.</p>
+    <div class="alert alert-warning text-center mt-4">
+      {{#if isSearching}}
+        <h4>🔍 No se encontraron libros</h4>
+        <p>No hay libros que coincidan con "<strong>{{searchTerm}}</strong>"</p>
+        <a href="/libros" class="btn btn-primary">Ver todos los libros</a>
+      {{else}}
+        <h4>📚 No hay libros disponibles en este momento</h4>
+        <p>Por favor, vuelve más tarde.</p>
+      {{/if}}
     </div>
   {{/unless}}
 </div>

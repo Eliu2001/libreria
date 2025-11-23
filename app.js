@@ -10,6 +10,7 @@ import booksRoutes from './routes/booksRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
 
 // Importar modelos
 import { User } from './models/User.js';
@@ -17,6 +18,8 @@ import { Book } from './models/Book.js';
 import { Cart } from './models/Cart.js';
 import { Order } from './models/Order.js';
 import { OrderItem } from './models/OrderItem.js';
+import { Category } from './models/Category.js';
+import { BookCategory } from './models/BookCategory.js';
 
 // Definir relaciones después de importar todos los modelos
 // Relaciones User
@@ -38,6 +41,10 @@ Order.hasMany(OrderItem, { foreignKey: 'orderId' });
 OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 OrderItem.belongsTo(Book, { foreignKey: 'bookId' });
 
+// Relaciones Category - Book (Muchos a Muchos)
+Book.belongsToMany(Category, { through: BookCategory, foreignKey: 'bookId' });
+Category.belongsToMany(Book, { through: BookCategory, foreignKey: 'categoryId' });
+
 dotenv.config();
 
 const app = e();
@@ -49,7 +56,9 @@ app.engine("hbs", exphbs.engine({
     extname: ".hbs",
     helpers: {
         eq: (a, b) => a === b,
-        gt: (a, b) => a > b
+        gt: (a, b) => a > b,
+        includes: (array, value) => array && array.includes(value),
+        toString: (value) => String(value)
     },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
@@ -85,6 +94,7 @@ app.use(booksRoutes);
 app.use(adminRoutes);
 app.use(cartRoutes);
 app.use(orderRoutes);
+app.use(categoryRoutes);
 
 app.get("/", (req, res) => res.render("home"));
 

@@ -8,6 +8,9 @@
             <a href="/admin/pedidos" class="btn btn-info text-white me-2">
                 <i class="bi bi-bag-check"></i> Ver Pedidos
             </a>
+            <a href="/admin/categorias" class="btn btn-warning me-2">
+                📁 Categorías
+            </a>
             <a href="/admin/books/new" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Agregar Libro
             </a>
@@ -20,6 +23,7 @@
       <th>ID</th>
       <th>Título</th>
       <th>Autor</th>
+      <th>Categorías</th>
       <th>Precio</th>
       <th>Stock Disponible</th>
       <th>Acciones</th>
@@ -31,6 +35,15 @@
         <td>{{this.id}}</td>
         <td>{{this.nombre}}</td>
         <td>{{this.autor}}</td>
+        <td>
+          {{#if this.categories.length}}
+            {{#each this.categories}}
+              <span class="badge bg-secondary me-1">{{this.nombre}}</span>
+            {{/each}}
+          {{else}}
+            <span class="text-muted">-</span>
+          {{/if}}
+        </td>
         <td>${{this.precio}}</td>
         <td>{{this.cantidad_disponible}}</td>
         <td>
