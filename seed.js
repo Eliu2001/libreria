@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { connectDB, sequelize } from './config/database.js';
 import { User } from './models/User.js';
 import { Book } from './models/Book.js';
+import { Cart } from './models/Cart.js';
 import dotenv from 'dotenv';
 
 dotenv.config();

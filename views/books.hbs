@@ -51,13 +51,21 @@
 </div>
 
 <div class="container">
+  {{#if (eq agregado 'exito')}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>✅ ¡Producto agregado!</strong> El libro se agregó correctamente a tu carrito.
+      <a href="/carrito" class="alert-link">Ver carrito</a>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {{/if}}
+
   <div class="books-table">
     <table class="table table-hover mb-0">
       <thead>
         <tr>
           <th>📖 Nombre</th>
           <th>📦 Stock Disponible</th>
-          <th style="width: 300px;">🛒 Comprar</th>
+          <th style="width: 350px;">🛒 Agregar al Carrito</th>
         </tr>
       </thead>
       <tbody>
@@ -75,10 +83,11 @@
             </td>
             <td>
               {{#if (gt this.cantidad_disponible 0)}}
-                <form action="/libros/{{this.id}}/comprar" method="POST" class="buy-form">
+                <form action="/carrito/agregar" method="POST" class="buy-form">
+                  <input type="hidden" name="bookId" value="{{this.id}}">
                   <input name="cantidad" type="number" min="1" max="{{this.cantidad_disponible}}" value="1" class="form-control" style="width: 100px;" required>
                   <button class="btn btn-success">
-                    <i class="bi bi-cart-plus"></i> Comprar
+                    🛒 Agregar al Carrito
                   </button>
                 </form>
               {{else}}

@@ -2,7 +2,8 @@ import { Book } from "../models/Book.js";
 
 export const showBooks = async (req, res) => {
     const books = await Book.findAll();
-    res.render('books',{ books });
+    const agregado = req.query.agregado;
+    res.render('books', { books, agregado });
 };
 
 export const buyBook = async (req, res) => {

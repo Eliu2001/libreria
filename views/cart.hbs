@@ -1,0 +1,133 @@
+<style>
+.cart-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 0;
+  margin: -1rem -1rem 2rem -1rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+}
+
+.cart-container {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.5rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item:hover {
+  background-color: #f8f9fa;
+}
+
+.cart-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-top: 2rem;
+}
+
+.quantity-input {
+  width: 80px;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-cart-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+</style>
+
+<div class="cart-header">
+  <h1>🛒 Mi Carrito de Compras</h1>
+  <p class="lead">Revisa tus productos antes de finalizar la compra</p>
+</div>
+
+<div class="container">
+  {{#if cartItems.length}}
+    <div class="cart-container">
+      {{#each cartItems}}
+        <div class="cart-item row align-items-center">
+          <div class="col-md-5">
+            <h5 class="mb-0">📖 {{this.book.nombre}}</h5>
+          </div>
+          <div class="col-md-2">
+            <small class="text-muted">Stock: {{this.book.cantidad_disponible}}</small>
+          </div>
+          <div class="col-md-3">
+            <form action="/carrito/{{this.id}}/actualizar" method="POST" class="d-flex align-items-center gap-2">
+              <label class="mb-0">Cantidad:</label>
+              <input 
+                type="number" 
+                name="cantidad" 
+                value="{{this.cantidad}}" 
+                min="1" 
+                max="{{this.book.cantidad_disponible}}"
+                class="form-control quantity-input"
+                onchange="this.form.submit()"
+              >
+            </form>
+          </div>
+          <div class="col-md-2 text-end">
+            <form action="/carrito/{{this.id}}/eliminar" method="POST" style="display: inline;">
+              <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este libro del carrito?')">
+                🗑️ Eliminar
+              </button>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="cart-summary">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h4>Total de items: {{cartItems.length}}</h4>
+        </div>
+        <div class="col-md-6 text-end">
+          <form action="/carrito/finalizar" method="POST" style="display: inline;">
+            <button class="btn btn-success btn-lg me-2">
+              ✅ Finalizar Compra
+            </button>
+          </form>
+          <form action="/carrito/vaciar" method="POST" style="display: inline;">
+            <button class="btn btn-outline-light" onclick="return confirm('¿Vaciar todo el carrito?')">
+              🗑️ Vaciar Carrito
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/libros" class="btn btn-outline-primary">
+        ← Continuar Comprando
+      </a>
+    </div>
+
+  {{else}}
+    <div class="cart-container empty-cart">
+      <div class="empty-cart-icon">🛒</div>
+      <h3>Tu carrito está vacío</h3>
+      <p class="text-muted mb-4">Agrega algunos libros para comenzar tu compra</p>
+      <a href="/libros" class="btn btn-primary btn-lg">
+        📚 Ver Catálogo de Libros
+      </a>
+    </div>
+  {{/if}}
+</div>

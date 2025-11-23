@@ -8,6 +8,8 @@ import { connectDB, sequelize } from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import booksRoutes from './routes/booksRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import { Cart } from './models/Cart.js';
 
 dotenv.config();
 
@@ -29,18 +31,24 @@ app.engine("hbs", exphbs.engine({
 }));
 app.set("view engine", "hbs");
 
-// Middleware para pasar usuario a todas las vistas
-app.use((req, res, next) => {
+// Middleware para pasar usuario y contador de carrito a todas las vistas
+app.use(async (req, res, next) => {
     const token = req.cookies.token;
     if (token) {
         try {
             const usuario = jwt.verify(token, process.env.JWT_SECRET);
             res.locals.usuario = usuario;
+            
+            // Contar items en el carrito
+            const cartCount = await Cart.count({ where: { userId: usuario.id } });
+            res.locals.cartCount = cartCount;
         } catch (error) {
             res.locals.usuario = null;
+            res.locals.cartCount = 0;
         }
     } else {
         res.locals.usuario = null;
+        res.locals.cartCount = 0;
     }
     next();
 });
@@ -48,6 +56,7 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 app.use(booksRoutes);
 app.use(adminRoutes);
+app.use(cartRoutes);
 
 app.get("/", (req, res) => res.render("home"));
 
