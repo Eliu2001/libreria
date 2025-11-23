@@ -1,6 +1,110 @@
 # 📚 Sistema de Librería
 
-Sistema de gestión de librería con autenticación JWT, control de inventario y sistema de compras.
+Sistema completo de gestión de librería con e-commerce, autenticación JWT, control de inventario y panel administrativo.
+
+---
+
+## 📋 Documentación del Proyecto
+
+### 🎯 Problema Resuelto
+
+Este proyecto aborda la necesidad de **digitalizar y automatizar la gestión de una librería**, proporcionando una plataforma web integral que permite:
+
+- **Para usuarios finales:**
+  - Navegar un catálogo de libros con búsqueda y filtrado por categorías
+  - Agregar productos a un carrito de compras
+  - Realizar pedidos con validación de stock en tiempo real
+  - Consultar el historial de compras
+
+- **Para administradores:**
+  - Gestionar inventario completo (CRUD de libros y categorías)
+  - Monitorear ventas mediante un dashboard con estadísticas visuales
+  - Administrar el estado de pedidos (pendiente, completado, cancelado)
+  - Controlar precios y stock de productos
+
+El sistema resuelve problemas comunes de gestión manual como errores en inventario, falta de trazabilidad de ventas y dificultad para analizar métricas de negocio.
+
+---
+
+### 🛠️ Tecnologías Utilizadas
+
+#### **Backend**
+- **Node.js v22.16.0** - Runtime de JavaScript del lado del servidor
+- **Express.js v5.1.0** - Framework web minimalista y flexible
+- **Sequelize v6.37.7** - ORM para modelado y consultas a PostgreSQL
+- **PostgreSQL** - Sistema de base de datos relacional robusto
+
+#### **Autenticación y Seguridad**
+- **jsonwebtoken** - Generación y verificación de tokens JWT
+- **bcryptjs** - Hashing de contraseñas con salts
+- **cookie-parser** - Manejo seguro de cookies HTTP-only
+
+#### **Frontend**
+- **Handlebars (express-handlebars v8.0.3)** - Motor de plantillas del lado del servidor
+- **Bootstrap 5.3.0** - Framework CSS responsive
+- **Chart.js v4.4.0** - Librería de gráficos para visualización de datos
+
+#### **Desarrollo**
+- **ES6 Modules** - Sistema de módulos moderno de JavaScript
+- **nodemon** - Auto-reinicio del servidor en desarrollo
+- **dotenv** - Gestión de variables de entorno
+
+---
+
+### 🏗️ Enfoque de Desarrollo
+
+El proyecto sigue una **arquitectura MVC (Modelo-Vista-Controlador)** con las siguientes prácticas:
+
+#### **1. Arquitectura y Organización**
+- **Separación de responsabilidades:** Modelos, controladores, rutas y vistas en directorios independientes
+- **Relaciones de base de datos:** Uso de asociaciones Sequelize (hasMany, belongsTo, belongsToMany)
+- **Configuración centralizada:** Variables de entorno y configuración de base de datos separadas
+
+#### **2. Seguridad**
+- **Autenticación basada en JWT:** Tokens almacenados en cookies HTTP-only
+- **Control de acceso basado en roles:** Middleware para proteger rutas administrativas
+- **Hashing de contraseñas:** Uso de bcrypt con salts para almacenamiento seguro
+- **Validación de datos:** Verificación de stock antes de procesar compras
+
+#### **3. Funcionalidades Implementadas (5 Features Principales)**
+
+**Feature #1 - Sistema de Carrito:**
+- Agregar, actualizar y eliminar productos del carrito
+- Contador dinámico en navbar
+- Proceso de checkout con transacciones de base de datos
+
+**Feature #2 - Gestión de Precios y Pedidos:**
+- Modelo de órdenes con estados (pendiente, completado, cancelado)
+- Items de orden para tracking de productos comprados
+- Panel administrativo para gestión de pedidos
+
+**Feature #3 - Dashboard Administrativo:**
+- Estadísticas de ventas: total vendido, productos vendidos, órdenes completadas
+- Gráficos visuales con Chart.js (ventas por mes, libro más vendido)
+- Consultas SQL optimizadas con GROUP BY y JOINs
+
+**Feature #4 - Sistema de Búsqueda:**
+- Búsqueda por nombre o autor con operadores ILIKE
+- Contador de resultados encontrados
+- Integración con filtros de categoría
+
+**Feature #5 - Sistema de Categorías:**
+- Relación muchos a muchos (Book ↔ Category)
+- CRUD completo de categorías
+- Filtrado de catálogo por categoría
+- Asignación múltiple de categorías por libro
+
+#### **4. Desarrollo Iterativo**
+- Implementación secuencial de features con testing entre cada etapa
+- Debugging sistemático de errores de Sequelize y PostgreSQL
+- Seed data para facilitar desarrollo y testing
+
+#### **5. Manejo de Errores**
+- Control de errores en controladores con try-catch
+- Validaciones de stock y permisos
+- Mensajes informativos al usuario
+
+---
 
 ## 🚀 Características
 

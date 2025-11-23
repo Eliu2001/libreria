@@ -83,12 +83,12 @@ const seedDatabase = async () => {
         });
         await libro1984.setCategories([ficcion, cienciaFiccion, clasicos]);
 
-        console.log('✅ Libros creados y categorías asignadas correctamente');
-        console.log('\n🚀 Base de datos inicializada correctamente');
+        console.log('Libros creados y categorías asignadas correctamente');
+        console.log('\nBase de datos inicializada correctamente');
         
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error al inicializar la base de datos:', error);
+        console.error('Error al inicializar la base de datos:', error);
         process.exit(1);
     }
 };

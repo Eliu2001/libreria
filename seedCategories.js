@@ -26,10 +26,10 @@ const seedCategories = async () => {
             });
         }
 
-        console.log('✅ Categorías creadas correctamente');
+        console.log('Categorías creadas correctamente');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error al crear categorías:', error);
+        console.error('Error al crear categorías:', error);
         process.exit(1);
     }
 };
