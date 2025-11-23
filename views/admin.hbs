@@ -1,0 +1,33 @@
+<h2>Panel de Administración - Inventario</h2>
+
+<a href="/admin/books/new" class="btn btn-success mb-3">➕ Agregar Nuevo Libro</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Stock Disponible</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each books}}
+      <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.nombre}}</td>
+        <td>{{this.cantidad_disponible}}</td>
+        <td>
+          <a href="/admin/books/{{this.id}}/edit" class="btn btn-sm btn-primary">Editar</a>
+          <form action="/admin/books/{{this.id}}/delete" method="POST" style="display: inline;">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este libro?')">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{#unless books.length}}
+  <div class="alert alert-info">No hay libros en el inventario</div>
+{{/unless}}

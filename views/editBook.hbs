@@ -1,0 +1,16 @@
+<h2>Editar Libro</h2>
+
+<form method="POST" action="/admin/books/{{book.id}}/edit">
+  <div class="mb-3">
+    <label class="form-label">Título del Libro</label>
+    <input type="text" class="form-control" name="nombre" value="{{book.nombre}}" required>
+  </div>
+  
+  <div class="mb-3">
+    <label class="form-label">Cantidad en Stock</label>
+    <input type="number" class="form-control" name="cantidad_disponible" min="0" value="{{book.cantidad_disponible}}" required>
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Actualizar Libro</button>
+  <a href="/admin" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { showBooks, buyBook } from "../controllers/bookController.js";
+import { showBooks, buyBook } from "../controllers/booksControllers.js";
 import { verifyToken } from "../middlewares/auth.js";
 
 const router = Router();
 
-router.get('/books', verifyToken, showBooks);
-router.post('/books/:id/buy', verifyToken, buyBook);
+router.get('/libros', verifyToken, showBooks);
+router.post('/libros/:id/comprar', verifyToken, buyBook);
+
+export default router;

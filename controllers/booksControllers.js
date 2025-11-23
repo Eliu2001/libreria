@@ -1,4 +1,4 @@
-import { Book } from "../models/Book";
+import { Book } from "../models/Book.js";
 
 export const showBooks = async (req, res) => {
     const books = await Book.findAll();
@@ -7,17 +7,17 @@ export const showBooks = async (req, res) => {
 
 export const buyBook = async (req, res) => {
     const id = req.params.id;
-    const { quantity } = req.body;
+    const { cantidad } = req.body;
 
     const book = await Book.findByPk(id);
 
     if(!book) {
         return res.send('Book not found');
     }
-    if(book.quantity_actual < quantity) {
+    if(book.cantidad_disponible < cantidad) {
         return res.send('Not enough stock available');
     }
-    book.quantity_actual -= quantity;
+    book.cantidad_disponible -= cantidad;
     await book.save();
 
     res.redirect('/');

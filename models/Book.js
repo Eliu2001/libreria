@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../config/database";
+import { sequelize } from "../config/database.js";
 
 export const Book = sequelize.define('book', {
-    title: { type: DataTypes.STRING, allowNull: false },
-    quantity: { type: DataTypes.INTEGER, defaultValue: 0 }
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    cantidad_disponible: { type: DataTypes.INTEGER, defaultValue: 0 }
 });

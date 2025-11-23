@@ -26,16 +26,16 @@ export const login = async (req, res) => {
     const user = await User.findOne({ where: { username }});
 
     if(!user) {
-        return res.redirect('login', { error: 'User does not exist' });
+        return res.render('login', { error: 'User does not exist' });
     }
     const verifyPassword = bcrypt.compareSync(password, user.password);
 
     if(!verifyPassword) {
-        return res.redirect('login', { error: 'Invalid credentials' });
+        return res.render('login', { error: 'Invalid credentials' });
     }
 
     const token = jwt.sign(
-        { id: user.id, username: user.username },
+        { id: user.id, username: user.username, role: user.role },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );

@@ -1,11 +1,33 @@
-<h2>Iniciar Sesión</h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
 
-<form method="post" action="/login">
-<input class="form-control" name="username" placeholder="Usuario"> 
-<input class="form-control mt-2" name="password"  type="password" placeholder="Contraseña">
-<button class="btn btn-primary mt-3">Entrar</button>
-</form>
+          {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+          {{/if}}
 
-{{#if error}}
-<div class="alert alert-danger mt-3"></div>
-{{/if}}
+          <form method="post" action="/login">
+            <div class="mb-3">
+              <label class="form-label">Usuario</label>
+              <input class="form-control" name="username" placeholder="Ingresa tu usuario" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input class="form-control" name="password" type="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <button class="btn btn-primary w-100">Entrar</button>
+          </form>
+
+          <hr class="my-4">
+          
+          <div class="text-center">
+            <p class="mb-0">¿No tienes cuenta? <a href="/register" class="btn btn-success">Crear cuenta</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

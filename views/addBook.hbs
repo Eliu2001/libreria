@@ -1,0 +1,16 @@
+<h2>Agregar Nuevo Libro</h2>
+
+<form method="POST" action="/admin/books">
+  <div class="mb-3">
+    <label class="form-label">Título del Libro</label>
+    <input type="text" class="form-control" name="nombre" required>
+  </div>
+  
+  <div class="mb-3">
+    <label class="form-label">Cantidad en Stock</label>
+    <input type="number" class="form-control" name="cantidad_disponible" min="0" value="0" required>
+  </div>
+  
+  <button type="submit" class="btn btn-success">Guardar Libro</button>
+  <a href="/admin" class="btn btn-secondary">Cancelar</a>
+</form>
