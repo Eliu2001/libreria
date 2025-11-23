@@ -19,7 +19,8 @@ app.use(e.static("public"));
 app.engine("hbs", exphbs.engine({ 
     extname: ".hbs",
     helpers: {
-        eq: (a, b) => a === b
+        eq: (a, b) => a === b,
+        gt: (a, b) => a > b
     },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,

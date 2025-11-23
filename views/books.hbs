@@ -1,25 +1,100 @@
-<h2>Libros Disponibles</h2>
+<style>
+.books-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 0;
+  margin: -1rem -1rem 2rem -1rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+}
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Stock</th>
-      <th>Comprar</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each books}}
-      <tr>
-        <td>{{this.nombre}}</td>
-        <td>{{this.cantidad_disponible}}</td>
-        <td>
-          <form action="/libros/{{this.id}}/comprar" method="POST">
-            <input name="cantidad" type="number" min="1" class="form-control" required>
-            <button class="btn btn-success mt-2">Comprar</button>
-          </form>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+.books-table {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.buy-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.stock-badge {
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+}
+
+.book-name {
+  font-weight: 600;
+  color: #333;
+}
+</style>
+
+<div class="books-header">
+  <h1>📚 Catálogo de Libros</h1>
+  <p class="lead">Encuentra tu próxima gran lectura</p>
+</div>
+
+<div class="container">
+  <div class="books-table">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>📖 Nombre</th>
+          <th>📦 Stock Disponible</th>
+          <th style="width: 300px;">🛒 Comprar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each books}}
+          <tr>
+            <td class="book-name">{{this.nombre}}</td>
+            <td>
+              {{#if (gt this.cantidad_disponible 5)}}
+                <span class="badge bg-success stock-badge">{{this.cantidad_disponible}} disponibles</span>
+              {{else if (gt this.cantidad_disponible 0)}}
+                <span class="badge bg-warning stock-badge">{{this.cantidad_disponible}} disponibles</span>
+              {{else}}
+                <span class="badge bg-danger stock-badge">Agotado</span>
+              {{/if}}
+            </td>
+            <td>
+              {{#if (gt this.cantidad_disponible 0)}}
+                <form action="/libros/{{this.id}}/comprar" method="POST" class="buy-form">
+                  <input name="cantidad" type="number" min="1" max="{{this.cantidad_disponible}}" value="1" class="form-control" style="width: 100px;" required>
+                  <button class="btn btn-success">
+                    <i class="bi bi-cart-plus"></i> Comprar
+                  </button>
+                </form>
+              {{else}}
+                <button class="btn btn-secondary" disabled>No disponible</button>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  {{#unless books.length}}
+    <div class="alert alert-info text-center mt-4">
+      <h4>📚 No hay libros disponibles en este momento</h4>
+      <p>Por favor, vuelve más tarde.</p>
+    </div>
+  {{/unless}}
+</div>

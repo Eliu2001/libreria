@@ -1,2 +1,111 @@
-<h1 class="text-center"> Bienvenido a la Librería</h1>
-<a href="/libros" class="btn btn-primary">Ver libros</a>
+<style>
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1920') center/cover;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cta-button {
+  font-size: 1.2rem;
+  padding: 15px 40px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+</style>
+
+<div class="hero-section">
+  <div class="hero-content">
+    <h1>📚 Bienvenido a Nuestra Librería</h1>
+    <p>Descubre un mundo de conocimiento y aventuras</p>
+    {{#if usuario}}
+      <a href="/libros" class="btn btn-primary btn-lg cta-button">
+        <i class="bi bi-book"></i> Explorar Catálogo
+      </a>
+    {{else}}
+      <div>
+        <a href="/login" class="btn btn-primary btn-lg cta-button me-3">Iniciar Sesión</a>
+        <a href="/register" class="btn btn-success btn-lg cta-button">Crear Cuenta</a>
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <h3>Amplio Catálogo</h3>
+        <p>Miles de libros de todos los géneros para elegir</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Entrega Rápida</h3>
+        <p>Recibe tus libros en la puerta de tu casa</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">💳</div>
+        <h3>Pago Seguro</h3>
+        <p>Transacciones seguras y protegidas</p>
+      </div>
+    </div>
+  </div>
+
+  {{#if usuario}}
+  <div class="text-center mt-5 mb-5">
+    <h2>¿Listo para comenzar?</h2>
+    <p class="lead">Explora nuestra colección y encuentra tu próxima lectura</p>
+    <a href="/libros" class="btn btn-primary btn-lg mt-3">Ver Todos los Libros</a>
+  </div>
+  {{/if}}
+</div>
