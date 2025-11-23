@@ -63,11 +63,15 @@
     <div class="cart-container">
       {{#each cartItems}}
         <div class="cart-item row align-items-center">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <h5 class="mb-0">📖 {{this.book.nombre}}</h5>
+            {{#if this.book.autor}}
+              <small class="text-muted">por {{this.book.autor}}</small>
+            {{/if}}
           </div>
           <div class="col-md-2">
-            <small class="text-muted">Stock: {{this.book.cantidad_disponible}}</small>
+            <strong class="text-success">${{this.book.precio}}</strong>
+            <br><small class="text-muted">Stock: {{this.book.cantidad_disponible}}</small>
           </div>
           <div class="col-md-3">
             <form action="/carrito/{{this.id}}/actualizar" method="POST" class="d-flex align-items-center gap-2">
@@ -83,7 +87,7 @@
               >
             </form>
           </div>
-          <div class="col-md-2 text-end">
+          <div class="col-md-3 text-end">
             <form action="/carrito/{{this.id}}/eliminar" method="POST" style="display: inline;">
               <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este libro del carrito?')">
                 🗑️ Eliminar
@@ -96,10 +100,13 @@
 
     <div class="cart-summary">
       <div class="row align-items-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <h4>Total de items: {{cartItems.length}}</h4>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="col-md-4">
+          <h3>Total: <strong>${{total}}</strong></h3>
+        </div>
+        <div class="col-md-4 text-end">
           <form action="/carrito/finalizar" method="POST" style="display: inline;">
             <button class="btn btn-success btn-lg me-2">
               ✅ Finalizar Compra

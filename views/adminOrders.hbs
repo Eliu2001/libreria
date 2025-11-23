@@ -1,0 +1,110 @@
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestión de Pedidos</h2>
+        <a href="/admin" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a Inventario
+        </a>
+    </div>
+
+    {{#if orders.length}}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each orders}}
+                    <tr>
+                        <td>#{{this.id}}</td>
+                        <td>{{this.User.username}}</td>
+                        <td>${{this.total}}</td>
+                        <td>
+                            {{#if (eq this.estado 'completado')}}
+                                <span class="badge bg-success">Completado</span>
+                            {{else if (eq this.estado 'pendiente')}}
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            {{else}}
+                                <span class="badge bg-danger">Cancelado</span>
+                            {{/if}}
+                        </td>
+                        <td>{{this.createdAt}}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="collapse" data-bs-target="#order-{{this.id}}">
+                                    <i class="bi bi-eye"></i> Ver
+                                </button>
+                                
+                                {{#if (eq this.estado 'pendiente')}}
+                                <form action="/admin/pedidos/{{this.id}}/estado" method="POST" class="d-inline">
+                                    <input type="hidden" name="estado" value="completado">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="bi bi-check-circle"></i> Completar
+                                    </button>
+                                </form>
+                                <form action="/admin/pedidos/{{this.id}}/estado" method="POST" class="d-inline">
+                                    <input type="hidden" name="estado" value="cancelado">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-x-circle"></i> Cancelar
+                                    </button>
+                                </form>
+                                {{/if}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="order-{{this.id}}">
+                        <td colspan="6" class="bg-light">
+                            <div class="p-3">
+                                <h6 class="mb-3">Detalles del Pedido #{{this.id}}</h6>
+                                <table class="table table-sm table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Libro</th>
+                                            <th>Autor</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unit.</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each this.OrderItems}}
+                                        <tr>
+                                            <td>{{this.Book.nombre}}</td>
+                                            <td>{{this.Book.autor}}</td>
+                                            <td>{{this.cantidad}}</td>
+                                            <td>${{this.precio_unitario}}</td>
+                                            <td>${{this.subtotal}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div class="alert alert-info text-center">
+            <h5>No hay pedidos registrados</h5>
+            <p class="mb-0">Los pedidos de los clientes aparecerán aquí.</p>
+        </div>
+    {{/if}}
+</div>
+
+<style>
+    .table tbody tr:hover {
+        background-color: rgba(0,123,255,0.05);
+    }
+    
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+</style>

@@ -64,6 +64,7 @@
       <thead>
         <tr>
           <th>📖 Nombre</th>
+          <th>💰 Precio</th>
           <th>📦 Stock Disponible</th>
           <th style="width: 350px;">🛒 Agregar al Carrito</th>
         </tr>
@@ -71,7 +72,15 @@
       <tbody>
         {{#each books}}
           <tr>
-            <td class="book-name">{{this.nombre}}</td>
+            <td class="book-name">
+              {{this.nombre}}
+              {{#if this.autor}}
+                <br><small class="text-muted">por {{this.autor}}</small>
+              {{/if}}
+            </td>
+            <td>
+              <strong class="text-success">${{this.precio}}</strong>
+            </td>
             <td>
               {{#if (gt this.cantidad_disponible 5)}}
                 <span class="badge bg-success stock-badge">{{this.cantidad_disponible}} disponibles</span>

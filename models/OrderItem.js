@@ -1,19 +1,19 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
-import { User } from "./User.js";
+import { Order } from "./Order.js";
 import { Book } from "./Book.js";
 
-export const Cart = sequelize.define('cart', {
+export const OrderItem = sequelize.define('orderItem', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    userId: {
+    orderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: User,
+            model: Order,
             key: 'id'
         }
     },
@@ -27,18 +27,21 @@ export const Cart = sequelize.define('cart', {
     },
     cantidad: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 1,
-        validate: {
-            min: 1
-        }
+        allowNull: false
+    },
+    precio_unitario: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    subtotal: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
     }
 }, {
-    tableName: 'carts'
+    tableName: 'orderItems'
 });
 
-// Definir relaciones
-Cart.belongsTo(User, { foreignKey: 'userId' });
-Cart.belongsTo(Book, { foreignKey: 'bookId' });
-User.hasMany(Cart, { foreignKey: 'userId' });
-Book.hasMany(Cart, { foreignKey: 'bookId' });
+// Relaciones
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+OrderItem.belongsTo(Book, { foreignKey: 'bookId' });
+Order.hasMany(OrderItem, { foreignKey: 'orderId' });

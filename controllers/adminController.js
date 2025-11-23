@@ -13,10 +13,13 @@ export const showAddBookForm = (req, res) => {
 
 // Agregar nuevo libro
 export const addBook = async (req, res) => {
-    const { nombre, cantidad_disponible } = req.body;
+    const { nombre, autor, precio, descripcion, cantidad_disponible } = req.body;
     
     await Book.create({ 
-        nombre, 
+        nombre,
+        autor,
+        precio: parseFloat(precio) || 0,
+        descripcion,
         cantidad_disponible: parseInt(cantidad_disponible) || 0 
     });
     
@@ -36,7 +39,7 @@ export const showEditBookForm = async (req, res) => {
 
 // Actualizar libro
 export const updateBook = async (req, res) => {
-    const { nombre, cantidad_disponible } = req.body;
+    const { nombre, autor, precio, descripcion, imagen_url, cantidad_disponible } = req.body;
     const book = await Book.findByPk(req.params.id);
     
     if (!book) {
@@ -44,6 +47,10 @@ export const updateBook = async (req, res) => {
     }
     
     book.nombre = nombre;
+    book.autor = autor;
+    book.precio = parseFloat(precio) || 0;
+    book.descripcion = descripcion;
+    book.imagen_url = imagen_url;
     book.cantidad_disponible = parseInt(cantidad_disponible);
     await book.save();
     

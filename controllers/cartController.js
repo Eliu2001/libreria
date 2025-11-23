@@ -1,5 +1,8 @@
 import { Cart } from "../models/Cart.js";
 import { Book } from "../models/Book.js";
+import { Order } from "../models/Order.js";
+import { OrderItem } from "../models/OrderItem.js";
+import { sequelize } from "../config/database.js";
 
 // Ver carrito del usuario
 export const viewCart = async (req, res) => {
@@ -8,11 +11,17 @@ export const viewCart = async (req, res) => {
             where: { userId: req.usuario.id },
             include: [{
                 model: Book,
-                attributes: ['id', 'nombre', 'cantidad_disponible']
+                attributes: ['id', 'nombre', 'autor', 'precio', 'cantidad_disponible']
             }]
         });
 
-        res.render('cart', { cartItems });
+        // Calcular total
+        let total = 0;
+        cartItems.forEach(item => {
+            total += parseFloat(item.book.precio) * item.cantidad;
+        });
+
+        res.render('cart', { cartItems, total: total.toFixed(2) });
     } catch (error) {
         console.error('Error al ver carrito:', error);
         res.status(500).send('Error al cargar el carrito');
@@ -118,6 +127,8 @@ export const removeFromCart = async (req, res) => {
 
 // Finalizar compra (procesar carrito)
 export const checkout = async (req, res) => {
+    const transaction = await sequelize.transaction();
+    
     try {
         const userId = req.usuario.id;
 
@@ -127,24 +138,50 @@ export const checkout = async (req, res) => {
         });
 
         if (cartItems.length === 0) {
+            await transaction.rollback();
             return res.status(400).send('El carrito está vacío');
         }
 
-        // Verificar stock y descontar
+        // Calcular total y verificar stock
+        let total = 0;
         for (const item of cartItems) {
             if (item.book.cantidad_disponible < item.cantidad) {
+                await transaction.rollback();
                 return res.status(400).send(`Stock insuficiente para ${item.book.nombre}`);
             }
-            
+            total += parseFloat(item.book.precio) * item.cantidad;
+        }
+
+        // Crear la orden
+        const order = await Order.create({
+            userId,
+            total,
+            estado: 'completado'
+        }, { transaction });
+
+        // Crear items de la orden y descontar stock
+        for (const item of cartItems) {
+            // Crear OrderItem
+            await OrderItem.create({
+                orderId: order.id,
+                bookId: item.bookId,
+                cantidad: item.cantidad,
+                precio_unitario: item.book.precio,
+                subtotal: parseFloat(item.book.precio) * item.cantidad
+            }, { transaction });
+
+            // Descontar stock
             item.book.cantidad_disponible -= item.cantidad;
-            await item.book.save();
+            await item.book.save({ transaction });
         }
 
         // Vaciar carrito
-        await Cart.destroy({ where: { userId } });
+        await Cart.destroy({ where: { userId }, transaction });
 
-        res.redirect('/libros?compra=exitosa');
+        await transaction.commit();
+        res.redirect('/pedidos?compra=exitosa');
     } catch (error) {
+        await transaction.rollback();
         console.error('Error al procesar compra:', error);
         res.status(500).send('Error al procesar la compra');
     }

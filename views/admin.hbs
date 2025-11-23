@@ -1,12 +1,17 @@
 <h2>Panel de Administración - Inventario</h2>
 
-<a href="/admin/books/new" class="btn btn-success mb-3">➕ Agregar Nuevo Libro</a>
+<div class="mb-3">
+  <a href="/admin/books/new" class="btn btn-success">➕ Agregar Nuevo Libro</a>
+  <a href="/admin/pedidos" class="btn btn-info">📦 Ver Pedidos</a>
+</div>
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th>ID</th>
       <th>Título</th>
+      <th>Autor</th>
+      <th>Precio</th>
       <th>Stock Disponible</th>
       <th>Acciones</th>
     </tr>
@@ -16,6 +21,8 @@
       <tr>
         <td>{{this.id}}</td>
         <td>{{this.nombre}}</td>
+        <td>{{this.autor}}</td>
+        <td>${{this.precio}}</td>
         <td>{{this.cantidad_disponible}}</td>
         <td>
           <a href="/admin/books/{{this.id}}/edit" class="btn btn-sm btn-primary">Editar</a>

@@ -9,7 +9,10 @@ import authRoutes from './routes/authRoutes.js';
 import booksRoutes from './routes/booksRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import { Cart } from './models/Cart.js';
+import { Order } from './models/Order.js';
+import { OrderItem } from './models/OrderItem.js';
 
 dotenv.config();
 
@@ -57,6 +60,7 @@ app.use(authRoutes);
 app.use(booksRoutes);
 app.use(adminRoutes);
 app.use(cartRoutes);
+app.use(orderRoutes);
 
 app.get("/", (req, res) => res.render("home"));
 

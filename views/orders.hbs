@@ -1,0 +1,107 @@
+<style>
+.orders-header {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 3rem 0;
+  margin: -1rem -1rem 2rem -1rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.status-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+</style>
+
+<div class="orders-header">
+  <h1>📦 Mis Pedidos</h1>
+  <p class="lead">Historial de compras</p>
+</div>
+
+<div class="container">
+  {{#if (eq compra 'exitosa')}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>✅ ¡Compra exitosa!</strong> Tu pedido se ha procesado correctamente.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {{/if}}
+
+  {{#if orders.length}}
+    {{#each orders}}
+      <div class="order-card">
+        <div class="order-header row">
+          <div class="col-md-3">
+            <strong>Pedido #{{this.id}}</strong>
+          </div>
+          <div class="col-md-3">
+            <small class="text-muted">{{this.createdAt}}</small>
+          </div>
+          <div class="col-md-3">
+            {{#if (eq this.estado 'completado')}}
+              <span class="badge bg-success status-badge">✅ Completado</span>
+            {{else if (eq this.estado 'pendiente')}}
+              <span class="badge bg-warning status-badge">⏳ Pendiente</span>
+            {{else}}
+              <span class="badge bg-danger status-badge">❌ Cancelado</span>
+            {{/if}}
+          </div>
+          <div class="col-md-3 text-end">
+            <strong class="text-success">Total: ${{this.total}}</strong>
+          </div>
+        </div>
+
+        <div class="order-items">
+          {{#each this.orderItems}}
+            <div class="order-item row align-items-center">
+              <div class="col-md-6">
+                📖 {{this.book.nombre}}
+                {{#if this.book.autor}}
+                  <br><small class="text-muted">por {{this.book.autor}}</small>
+                {{/if}}
+              </div>
+              <div class="col-md-2">
+                Cantidad: {{this.cantidad}}
+              </div>
+              <div class="col-md-2">
+                ${{this.precio_unitario}} c/u
+              </div>
+              <div class="col-md-2 text-end">
+                <strong>${{this.subtotal}}</strong>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <div class="text-center py-5">
+      <h3>📦 No tienes pedidos aún</h3>
+      <p class="text-muted mb-4">Comienza a comprar para ver tu historial aquí</p>
+      <a href="/libros" class="btn btn-primary btn-lg">Ver Catálogo</a>
+    </div>
+  {{/if}}
+</div>
