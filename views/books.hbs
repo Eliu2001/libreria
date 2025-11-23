@@ -1,0 +1,25 @@
+<h2>Libros Disponibles</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Stock</th>
+      <th>Comprar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each libros}}
+      <tr>
+        <td>{{this.nombre}}</td>
+        <td>{{this.cantidad_disponible}}</td>
+        <td>
+          <form action="/libros/{{this.id}}/comprar" method="POST">
+            <input name="cantidad" type="number" min="1" class="form-control" required>
+            <button class="btn btn-success mt-2">Comprar</button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

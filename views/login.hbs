@@ -1,0 +1,11 @@
+<h2>Iniciar Sesión</h2>
+
+<form method="post" action="/login">
+<input class="form-control" name="username" placeholder="Usuario"> 
+<input class="form-control mt-2" name="password"  type="password" placeholder="Contraseña">
+<button class="btn btn-primary mt-3">Entrar</button>
+</form>
+
+{{#if error}}
+<div class="alert alert-danger mt-3"></div>
+{{/if}}

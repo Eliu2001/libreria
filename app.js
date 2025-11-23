@@ -26,5 +26,5 @@ await connectDB();
 await sequelize.sync();
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log("Servidor arriba en puerto 3000 ✔");
+    console.log("Servidor arriba en puerto 3000");
 });
